@@ -1,0 +1,991 @@
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mCACHE ActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (2.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-03-22 21:55:22.270646', '2025-03-22 21:55:22.270650') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20250322211111)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "email" varchar, "password_digest" varchar, "session_token" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250322211111') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for ::1 at 2025-03-22 15:01:19 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.8ms | Allocations: 180)
+  Rendered layout layouts/application.html.erb (Duration: 914.1ms | Allocations: 103001)
+Completed 200 OK in 1055ms (Views: 952.8ms | ActiveRecord: 0.0ms | Allocations: 111594)
+
+
+Started GET "/rooms" for ::1 at 2025-03-22 15:01:26 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/rooms"):
+  
+Started GET "/sign-up" for ::1 at 2025-03-22 15:01:28 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 17.5ms | Allocations: 3026)
+  Rendered layout layouts/application.html.erb (Duration: 21.9ms | Allocations: 4130)
+Completed 200 OK in 89ms (Views: 27.1ms | ActiveRecord: 1.8ms | Allocations: 16494)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:01:40 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"user1@email.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+No template found for RegistrationsController#create, rendering head :no_content
+Completed 204 No Content in 194ms (ActiveRecord: 0.0ms | Allocations: 1020)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:01:42 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"user1@email.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+No template found for RegistrationsController#create, rendering head :no_content
+Completed 204 No Content in 185ms (ActiveRecord: 0.0ms | Allocations: 626)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:04:04 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1627)
+  Rendered layout layouts/application.html.erb (Duration: 32.2ms | Allocations: 16855)
+Completed 200 OK in 53ms (Views: 39.6ms | ActiveRecord: 2.2ms | Allocations: 22028)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:04:12 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"user@email.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 3)
+Completed 200 OK in 9ms (Views: 5.3ms | ActiveRecord: 0.0ms | Allocations: 864)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:04:26 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1636)
+  Rendered layout layouts/application.html.erb (Duration: 34.7ms | Allocations: 16870)
+Completed 200 OK in 54ms (Views: 41.7ms | ActiveRecord: 1.8ms | Allocations: 22077)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:05:09 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1639)
+  Rendered layout layouts/application.html.erb (Duration: 35.3ms | Allocations: 16896)
+Completed 200 OK in 54ms (Views: 42.4ms | ActiveRecord: 1.8ms | Allocations: 22052)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:05:12 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"asdf", "email"=>"asdf", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Exists? (2.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "asdf"], ["LIMIT", 1]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.8ms | Allocations: 1664)
+  Rendered layout layouts/application.html.erb (Duration: 5.6ms | Allocations: 2753)
+Completed 200 OK in 61ms (Views: 6.4ms | ActiveRecord: 2.0ms | Allocations: 10787)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:06:55 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1630)
+  Rendered layout layouts/application.html.erb (Duration: 7.3ms | Allocations: 3985)
+Completed 500 Internal Server Error in 74ms (ActiveRecord: 1.8ms | Allocations: 9194)
+
+
+  
+ActionView::Template::Error (uninitialized constant #<Class:0x00000272f41bbe08>::Current):
+    3:   <%= javascript_include_tag "turbo", type: "module" %>
+    4: </head>
+    5: <style>
+    6:   <%= ".msg-#{Current.user&.id}" %> {
+    7:   background-color: #007bff !important;
+    8:   padding: 10px;
+    9:   }
+  
+app/views/layouts/application.html.erb:6
+Started GET "/sign-up" for ::1 at 2025-03-22 15:07:10 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.3ms | Allocations: 1126)
+  Rendered layout layouts/application.html.erb (Duration: 6.4ms | Allocations: 3149)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.0ms | Allocations: 3409)
+
+
+  
+ActionView::Template::Error (uninitialized constant #<Class:0x00000272f41bbe08>::Current):
+    3:   <%= javascript_include_tag "turbo", type: "module" %>
+    4: </head>
+    5: <style>
+    6:   <%= ".msg-#{Current.user&.id}" %> {
+    7:   background-color: #007bff !important;
+    8:   padding: 10px;
+    9:   }
+  
+app/views/layouts/application.html.erb:6
+Started GET "/sign-up" for ::1 at 2025-03-22 15:07:11 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1126)
+  Rendered layout layouts/application.html.erb (Duration: 5.7ms | Allocations: 3148)
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.0ms | Allocations: 3408)
+
+
+  
+ActionView::Template::Error (uninitialized constant #<Class:0x00000272f41bbe08>::Current):
+    3:   <%= javascript_include_tag "turbo", type: "module" %>
+    4: </head>
+    5: <style>
+    6:   <%= ".msg-#{Current.user&.id}" %> {
+    7:   background-color: #007bff !important;
+    8:   padding: 10px;
+    9:   }
+  
+app/views/layouts/application.html.erb:6
+Started GET "/sign-up" for ::1 at 2025-03-22 15:07:31 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1629)
+  Rendered layout layouts/application.html.erb (Duration: 42.6ms | Allocations: 18917)
+Completed 500 Internal Server Error in 104ms (ActiveRecord: 1.9ms | Allocations: 24105)
+
+
+  
+ActionView::Template::Error (Missing partial shared/_flash with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:raw, :erb, :html, :builder, :ruby, :jbuilder]}.
+
+Searched in:
+  * "C:/Users/James/Documents/.Desktop_Docs/Code/Ruby/biztech/cbot/app/views"
+  * "C:/Users/James/.local/share/gem/ruby/3.3.0/gems/turbo-rails-2.0.13/app/views"
+  * "C:/Users/James/.local/share/gem/ruby/3.3.0/gems/actiontext-7.1.5.1/app/views"
+  * "C:/Users/James/.local/share/gem/ruby/3.3.0/gems/actionmailbox-7.1.5.1/app/views"
+):
+    47:   <body>
+    48:     
+    49:     <div class="container">
+    50:       <%= render partial: "shared/flash" %>
+    51:     </div>
+    52: 
+    53:     <%= render partial: "shared/navbar" %>
+  
+app/views/layouts/application.html.erb:50
+Started GET "/sign-up" for ::1 at 2025-03-22 15:07:55 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 7.4ms | Allocations: 1630)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 226)
+  Rendered shared/_navbar.html.erb (Duration: 0.8ms | Allocations: 1339)
+  Rendered layout layouts/application.html.erb (Duration: 57.4ms | Allocations: 19561)
+Completed 500 Internal Server Error in 87ms (ActiveRecord: 3.2ms | Allocations: 24747)
+
+
+  
+ActionView::Template::Error (uninitialized constant #<Class:0x00000272f05f2b38>::Current):
+     6: 
+     7:   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+     8:     <ul class="navbar-nav mr-auto">
+     9:       <% if Current.user %>
+    10:         <li class="nav-item">
+    11:         <a class="nav-link" href="/index">Home</a>
+    12:       </li>
+  
+app/views/shared/_navbar.html.erb:9
+app/views/layouts/application.html.erb:53
+Started GET "/sign-up" for ::1 at 2025-03-22 15:08:25 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1631)
+  Rendered shared/_flash.html.erb (Duration: 1.4ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 1.2ms | Allocations: 77)
+  Rendered layout layouts/application.html.erb (Duration: 46.1ms | Allocations: 18275)
+Completed 200 OK in 67ms (Views: 53.3ms | ActiveRecord: 1.9ms | Allocations: 23475)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:08:28 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 5.0ms | Allocations: 1135)
+  Rendered shared/_flash.html.erb (Duration: 0.9ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 19.1ms | Allocations: 3229)
+Completed 200 OK in 24ms (Views: 19.9ms | ActiveRecord: 0.0ms | Allocations: 3498)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:08:28 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1123)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 8.1ms | Allocations: 3224)
+Completed 200 OK in 14ms (Views: 8.8ms | ActiveRecord: 0.0ms | Allocations: 3493)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:08:28 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1135)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 8.9ms | Allocations: 3235)
+Completed 200 OK in 12ms (Views: 9.6ms | ActiveRecord: 0.0ms | Allocations: 3504)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:08:31 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"asdf", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1633)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 8.3ms | Allocations: 3724)
+Completed 200 OK in 207ms (Views: 9.1ms | ActiveRecord: 1.3ms | Allocations: 6789)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:08:38 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Exists? (1.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1556)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 8.0ms | Allocations: 3646)
+Completed 200 OK in 200ms (Views: 8.8ms | ActiveRecord: 1.5ms | Allocations: 6360)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:09:03 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"user@email.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("username", "email", "password_digest", "session_token", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["username", "user1"], ["email", "user@email.com"], ["password_digest", "[FILTERED]"], ["session_token", "[FILTERED]"], ["created_at", "2025-03-22 22:09:03.709603"], ["updated_at", "2025-03-22 22:09:03.709603"]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+Redirected to http://localhost:3000/
+Completed 302 Found in 194ms (ActiveRecord: 2.6ms | Allocations: 4226)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:09:03 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.6ms | Allocations: 88)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 31)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 7)
+  Rendered layout layouts/application.html.erb (Duration: 7.4ms | Allocations: 2546)
+Completed 200 OK in 17ms (Views: 12.3ms | ActiveRecord: 0.0ms | Allocations: 3008)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:11:37 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.7ms | Allocations: 88)
+  Rendered shared/_flash.html.erb (Duration: 0.6ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 1.0ms | Allocations: 1273)
+  Rendered layout layouts/application.html.erb (Duration: 38.8ms | Allocations: 18266)
+Completed 500 Internal Server Error in 52ms (ActiveRecord: 0.0ms | Allocations: 19159)
+
+
+  
+ActionView::Template::Error (uninitialized constant #<Class:0x00000272f4b1dac8>::Current):
+     6: 
+     7:   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+     8:     <ul class="navbar-nav mr-auto">
+     9:       <% if Current.user %>
+    10:         <li class="nav-item">
+    11:         <a class="nav-link" href="/index">Home</a>
+    12:       </li>
+  
+app/views/shared/_navbar.html.erb:9
+app/views/layouts/application.html.erb:53
+Started GET "/" for ::1 at 2025-03-22 15:12:07 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.7ms | Allocations: 88)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 4.5ms | Allocations: 499)
+  Rendered layout layouts/application.html.erb (Duration: 39.5ms | Allocations: 17496)
+Completed 200 OK in 50ms (Views: 46.1ms | ActiveRecord: 0.0ms | Allocations: 18399)
+
+
+Started GET "/about" for ::1 at 2025-03-22 15:12:08 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/about"):
+  
+Started GET "/posts/0" for ::1 at 2025-03-22 15:12:09 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/posts/0"):
+  
+Started GET "/about" for ::1 at 2025-03-22 15:12:09 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/about"):
+  
+Started GET "/" for ::1 at 2025-03-22 15:12:10 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 10)
+  Rendered layout layouts/application.html.erb (Duration: 8.3ms | Allocations: 2433)
+Completed 200 OK in 12ms (Views: 9.0ms | ActiveRecord: 0.0ms | Allocations: 2686)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:12:10 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 10)
+  Rendered layout layouts/application.html.erb (Duration: 8.0ms | Allocations: 2421)
+Completed 200 OK in 13ms (Views: 8.9ms | ActiveRecord: 0.0ms | Allocations: 2674)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:12:10 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.0ms | Allocations: 2411)
+Completed 200 OK in 10ms (Views: 7.7ms | ActiveRecord: 0.0ms | Allocations: 2664)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:12:11 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 10)
+  Rendered layout layouts/application.html.erb (Duration: 7.1ms | Allocations: 2412)
+Completed 200 OK in 11ms (Views: 7.9ms | ActiveRecord: 0.0ms | Allocations: 2665)
+
+
+Started GET "/about" for ::1 at 2025-03-22 15:12:11 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/about"):
+  
+Started GET "/" for ::1 at 2025-03-22 15:12:12 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.1ms | Allocations: 2420)
+Completed 200 OK in 11ms (Views: 7.9ms | ActiveRecord: 0.0ms | Allocations: 2673)
+
+
+Started GET "/about" for ::1 at 2025-03-22 15:12:12 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/about"):
+  
+Started GET "/" for ::1 at 2025-03-22 15:12:13 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 10)
+  Rendered layout layouts/application.html.erb (Duration: 6.9ms | Allocations: 2427)
+Completed 200 OK in 11ms (Views: 7.7ms | ActiveRecord: 0.0ms | Allocations: 2680)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:12:13 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 6.6ms | Allocations: 2435)
+Completed 200 OK in 10ms (Views: 7.3ms | ActiveRecord: 0.0ms | Allocations: 2688)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:12:14 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/sign-in"):
+  
+Started GET "/sign-up" for ::1 at 2025-03-22 15:12:14 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1615)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 24)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 8.6ms | Allocations: 3727)
+Completed 200 OK in 25ms (Views: 13.2ms | ActiveRecord: 1.9ms | Allocations: 8485)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:12:20 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "email"=>"user@email.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 1.4ms | Allocations: 1596)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.9ms | Allocations: 3687)
+Completed 200 OK in 200ms (Views: 8.6ms | ActiveRecord: 1.3ms | Allocations: 6716)
+
+
+Started POST "/sign-up" for ::1 at 2025-03-22 15:12:27 -0700
+Processing by RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user2", "email"=>"user@email.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign Up"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user2"], ["LIMIT", 1]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("username", "email", "password_digest", "session_token", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["username", "user2"], ["email", "user@email.com"], ["password_digest", "[FILTERED]"], ["session_token", "[FILTERED]"], ["created_at", "2025-03-22 22:12:27.289325"], ["updated_at", "2025-03-22 22:12:27.289325"]]
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/registrations_controller.rb:8:in `create'
+Redirected to http://localhost:3000/
+Completed 302 Found in 192ms (ActiveRecord: 1.5ms | Allocations: 2809)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:12:27 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 28)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 6.9ms | Allocations: 2446)
+Completed 200 OK in 11ms (Views: 7.6ms | ActiveRecord: 0.0ms | Allocations: 2699)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:13:17 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 2.6ms | Allocations: 259)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 1.0ms | Allocations: 230)
+  Rendered layout layouts/application.html.erb (Duration: 37.6ms | Allocations: 17392)
+Completed 200 OK in 57ms (Views: 45.1ms | ActiveRecord: 0.0ms | Allocations: 18294)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:13:18 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.2ms | Allocations: 2432)
+Completed 200 OK in 11ms (Views: 7.9ms | ActiveRecord: 0.0ms | Allocations: 2685)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:13:24 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/sign-in"):
+  
+Started GET "/sign-up" for ::1 at 2025-03-22 15:13:24 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1647)
+  Rendered shared/_flash.html.erb (Duration: 0.6ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 1.9ms | Allocations: 346)
+  Rendered layout layouts/application.html.erb (Duration: 34.1ms | Allocations: 18560)
+Completed 200 OK in 53ms (Views: 40.7ms | ActiveRecord: 1.9ms | Allocations: 23724)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:14:21 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.8ms | Allocations: 148)
+  Rendered shared/_flash.html.erb (Duration: 0.6ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 0.7ms | Allocations: 230)
+  Rendered layout layouts/application.html.erb (Duration: 37.1ms | Allocations: 16972)
+Completed 200 OK in 64ms (Views: 44.6ms | ActiveRecord: 2.1ms | Allocations: 23781)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:23:28 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 22.2ms | Allocations: 688)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 238)
+  Rendered shared/_navbar.html.erb (Duration: 0.5ms | Allocations: 241)
+  Rendered layout layouts/application.html.erb (Duration: 520.1ms | Allocations: 37537)
+Completed 200 OK in 784ms (Views: 582.2ms | ActiveRecord: 0.0ms | Allocations: 42730)
+
+
+Started GET "/about" for ::1 at 2025-03-22 15:23:30 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/about"):
+  
+Started GET "/sign-in" for ::1 at 2025-03-22 15:23:30 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/sign-in"):
+  
+Started GET "/" for ::1 at 2025-03-22 15:23:31 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.1ms | Allocations: 9)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 8.0ms | Allocations: 2136)
+Completed 200 OK in 12ms (Views: 9.0ms | ActiveRecord: 0.0ms | Allocations: 2765)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:23:32 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/sign-in"):
+  
+Started GET "/sign-up" for ::1 at 2025-03-22 15:23:32 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 42.9ms | Allocations: 2218)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 24)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 10)
+  Rendered layout layouts/application.html.erb (Duration: 49.3ms | Allocations: 4354)
+Completed 200 OK in 122ms (Views: 54.3ms | ActiveRecord: 3.0ms | Allocations: 16793)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:23:33 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/sign-in"):
+  
+Started GET "/sign-in" for ::1 at 2025-03-22 15:23:34 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/sign-in"):
+  
+Started GET "/" for ::1 at 2025-03-22 15:23:35 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 9)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 6.2ms | Allocations: 2136)
+Completed 200 OK in 11ms (Views: 7.0ms | ActiveRecord: 0.0ms | Allocations: 2754)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:25:57 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 2.2ms | Allocations: 276)
+  Rendered shared/_flash.html.erb (Duration: 0.6ms | Allocations: 204)
+  Rendered shared/_navbar.html.erb (Duration: 0.6ms | Allocations: 230)
+  Rendered layout layouts/application.html.erb (Duration: 38.6ms | Allocations: 17255)
+Completed 200 OK in 51ms (Views: 45.9ms | ActiveRecord: 0.0ms | Allocations: 18571)
+
+
+Started GET "/sign-up" for ::1 at 2025-03-22 15:25:58 -0700
+Processing by RegistrationsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering registrations/new.html.erb within layouts/application
+  Rendered registrations/new.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1305)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 24)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 10.8ms | Allocations: 3412)
+Completed 200 OK in 28ms (Views: 15.5ms | ActiveRecord: 2.8ms | Allocations: 8556)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:25:58 -0700
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 5.3ms | Allocations: 1654)
+  Rendered layout layouts/application.html.erb (Duration: 8.2ms | Allocations: 1739)
+Completed 500 Internal Server Error in 42ms (ActiveRecord: 0.0ms | Allocations: 2588)
+
+
+  
+ActionView::Template::Error (undefined local variable or method `reset_password_path' for an instance of #<Class:0x000002d325bba508>):
+    10:     <%= form.password_field :password, class: "form-control" %>
+    11: </div>
+    12: <div>
+    13:     <%= link_to"Forgot your password?", reset_password_path %>
+    14: </div>
+    15: <div class="mb-3">
+    16:     <%= form.submit "Sign In", class: "btn btn-primary" %>
+  
+app/views/sessions/new.html.erb:13
+app/views/sessions/new.html.erb:3
+Started GET "/sign-in" for ::1 at 2025-03-22 15:26:06 -0700
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.7ms | Allocations: 800)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 2.6ms | Allocations: 353)
+  Rendered layout layouts/application.html.erb (Duration: 48.4ms | Allocations: 17832)
+Completed 200 OK in 89ms (Views: 55.9ms | ActiveRecord: 2.7ms | Allocations: 23451)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:26:09 -0700
+  
+AbstractController::ActionNotFound (The action 'login' could not be found for SessionsController):
+  
+actionpack (7.1.5.1) lib/abstract_controller/base.rb:155:in `process'
+actionview (7.1.5.1) lib/action_view/rendering.rb:40:in `process'
+actionpack (7.1.5.1) lib/action_controller/metal.rb:227:in `dispatch'
+actionpack (7.1.5.1) lib/action_controller/metal.rb:309:in `dispatch'
+actionpack (7.1.5.1) lib/action_dispatch/routing/route_set.rb:49:in `dispatch'
+actionpack (7.1.5.1) lib/action_dispatch/routing/route_set.rb:32:in `serve'
+actionpack (7.1.5.1) lib/action_dispatch/journey/router.rb:51:in `block in serve'
+actionpack (7.1.5.1) lib/action_dispatch/journey/router.rb:131:in `block in find_routes'
+actionpack (7.1.5.1) lib/action_dispatch/journey/router.rb:124:in `each'
+actionpack (7.1.5.1) lib/action_dispatch/journey/router.rb:124:in `find_routes'
+actionpack (7.1.5.1) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (7.1.5.1) lib/action_dispatch/routing/route_set.rb:882:in `call'
+rack (3.1.12) lib/rack/tempfile_reaper.rb:20:in `call'
+rack (3.1.12) lib/rack/etag.rb:29:in `call'
+rack (3.1.12) lib/rack/conditional_get.rb:43:in `call'
+rack (3.1.12) lib/rack/head.rb:15:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/http/permissions_policy.rb:36:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/http/content_security_policy.rb:36:in `call'
+rack-session (2.1.0) lib/rack/session/abstract/id.rb:274:in `context'
+rack-session (2.1.0) lib/rack/session/abstract/id.rb:268:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/cookies.rb:689:in `call'
+activerecord (7.1.5.1) lib/active_record/migration.rb:655:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+activesupport (7.1.5.1) lib/active_support/callbacks.rb:101:in `run_callbacks'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/callbacks.rb:28:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/actionable_exceptions.rb:16:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/debug_exceptions.rb:29:in `call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (7.1.5.1) lib/rails/rack/logger.rb:37:in `call_app'
+railties (7.1.5.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (7.1.5.1) lib/active_support/tagged_logging.rb:139:in `block in tagged'
+activesupport (7.1.5.1) lib/active_support/tagged_logging.rb:39:in `tagged'
+activesupport (7.1.5.1) lib/active_support/tagged_logging.rb:139:in `tagged'
+activesupport (7.1.5.1) lib/active_support/broadcast_logger.rb:241:in `method_missing'
+railties (7.1.5.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.5.2) lib/sprockets/rails/quiet_assets.rb:17:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/remote_ip.rb:92:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/request_id.rb:28:in `call'
+rack (3.1.12) lib/rack/method_override.rb:28:in `call'
+rack (3.1.12) lib/rack/runtime.rb:24:in `call'
+activesupport (7.1.5.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/server_timing.rb:59:in `block in call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/server_timing.rb:24:in `collect_events'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/server_timing.rb:58:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/static.rb:25:in `call'
+rack (3.1.12) lib/rack/sendfile.rb:114:in `call'
+actionpack (7.1.5.1) lib/action_dispatch/middleware/host_authorization.rb:141:in `call'
+railties (7.1.5.1) lib/rails/engine.rb:536:in `call'
+puma (6.6.0) lib/puma/configuration.rb:279:in `call'
+puma (6.6.0) lib/puma/request.rb:99:in `block in handle_request'
+puma (6.6.0) lib/puma/thread_pool.rb:390:in `with_force_shutdown'
+puma (6.6.0) lib/puma/request.rb:98:in `handle_request'
+puma (6.6.0) lib/puma/server.rb:472:in `process_client'
+puma (6.6.0) lib/puma/server.rb:254:in `block in run'
+puma (6.6.0) lib/puma/thread_pool.rb:167:in `block in spawn_thread'
+Started GET "/sign-in" for ::1 at 2025-03-22 15:26:27 -0700
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.6ms | Allocations: 797)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 2.3ms | Allocations: 353)
+  Rendered layout layouts/application.html.erb (Duration: 40.1ms | Allocations: 17828)
+Completed 200 OK in 62ms (Views: 47.2ms | ActiveRecord: 3.0ms | Allocations: 23441)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:26:27 -0700
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 2.2ms | Allocations: 482)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.1ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 15.7ms | Allocations: 2577)
+Completed 200 OK in 22ms (Views: 17.1ms | ActiveRecord: 0.0ms | Allocations: 3209)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:26:29 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "password"=>"[FILTERED]"}, "commit"=>"Sign In"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:12:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 8.5ms | Allocations: 2049)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 19)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 18.1ms | Allocations: 4136)
+Completed 200 OK in 219ms (Views: 18.8ms | ActiveRecord: 0.2ms | Allocations: 12969)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:26:33 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "username"=>"user1", "password"=>"[FILTERED]", "commit"=>"Sign In"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:12:in `create'
+Redirected to http://localhost:3000/
+Completed 302 Found in 190ms (ActiveRecord: 0.1ms | Allocations: 1754)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:26:33 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 1.1ms | Allocations: 301)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 29)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 8.0ms | Allocations: 2412)
+Completed 200 OK in 19ms (Views: 13.3ms | ActiveRecord: 0.1ms | Allocations: 4245)
+
+
+Started DELETE "/sign-out" for ::1 at 2025-03-22 15:26:36 -0700
+Processing by SessionsController#destroy as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+Redirected to http://localhost:3000/
+Completed 302 Found in 5ms (ActiveRecord: 0.1ms | Allocations: 935)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:26:36 -0700
+Processing by MainController#home as TURBO_STREAM
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 28)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 6.3ms | Allocations: 2151)
+Completed 200 OK in 10ms (Views: 6.9ms | ActiveRecord: 0.0ms | Allocations: 2839)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:26:37 -0700
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.7ms | Allocations: 482)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.7ms | Allocations: 2577)
+Completed 200 OK in 12ms (Views: 8.4ms | ActiveRecord: 0.0ms | Allocations: 3206)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:26:40 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "password"=>"[FILTERED]"}, "commit"=>"Sign In"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:12:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.0ms | Allocations: 2119)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 19)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 8.5ms | Allocations: 4206)
+Completed 200 OK in 14ms (Views: 9.2ms | ActiveRecord: 0.1ms | Allocations: 5322)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:26:44 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "username"=>"user1", "password"=>"[FILTERED]", "commit"=>"Sign In"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:12:in `create'
+Redirected to http://localhost:3000/
+Completed 302 Found in 188ms (ActiveRecord: 0.1ms | Allocations: 940)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:26:44 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.3ms | Allocations: 124)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 28)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.1ms | Allocations: 2224)
+Completed 200 OK in 12ms (Views: 7.8ms | ActiveRecord: 0.1ms | Allocations: 3220)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:27:10 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 1.1ms | Allocations: 324)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 206)
+  Rendered shared/_navbar.html.erb (Duration: 0.9ms | Allocations: 225)
+  Rendered layout layouts/application.html.erb (Duration: 49.8ms | Allocations: 17177)
+Completed 200 OK in 73ms (Views: 56.8ms | ActiveRecord: 2.8ms | Allocations: 23927)
+
+
+Started GET "/index" for ::1 at 2025-03-22 15:27:10 -0700
+  
+ActionController::RoutingError (No route matches [GET] "/index"):
+  
+Started GET "/" for ::1 at 2025-03-22 15:27:12 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.3ms | Allocations: 124)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 6.7ms | Allocations: 2250)
+Completed 200 OK in 12ms (Views: 7.4ms | ActiveRecord: 0.1ms | Allocations: 3229)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:27:19 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 2.0ms | Allocations: 326)
+  Rendered shared/_flash.html.erb (Duration: 0.6ms | Allocations: 202)
+  Rendered shared/_navbar.html.erb (Duration: 0.8ms | Allocations: 224)
+  Rendered layout layouts/application.html.erb (Duration: 48.8ms | Allocations: 17235)
+Completed 200 OK in 77ms (Views: 55.7ms | ActiveRecord: 2.7ms | Allocations: 24042)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:27:20 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.3ms | Allocations: 124)
+  Rendered shared/_flash.html.erb (Duration: 0.0ms | Allocations: 23)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.3ms | Allocations: 2243)
+Completed 200 OK in 12ms (Views: 7.9ms | ActiveRecord: 0.1ms | Allocations: 3217)
+
+
+Started DELETE "/sign-out" for ::1 at 2025-03-22 15:27:22 -0700
+Processing by SessionsController#destroy as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+Redirected to http://localhost:3000/
+Completed 302 Found in 6ms (ActiveRecord: 0.1ms | Allocations: 986)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:27:22 -0700
+Processing by MainController#home as TURBO_STREAM
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.0ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 28)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 6.5ms | Allocations: 2151)
+Completed 200 OK in 10ms (Views: 7.2ms | ActiveRecord: 0.0ms | Allocations: 2825)
+
+
+Started GET "/sign-in" for ::1 at 2025-03-22 15:27:52 -0700
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.6ms | Allocations: 752)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 24)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 8.5ms | Allocations: 2852)
+Completed 200 OK in 18ms (Views: 13.5ms | ActiveRecord: 0.0ms | Allocations: 3675)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:27:55 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"username"=>"user1", "password"=>"[FILTERED]"}, "commit"=>"Sign In"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:12:in `create'
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.1ms | Allocations: 2120)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 19)
+  Rendered shared/_navbar.html.erb (Duration: 0.1ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 8.3ms | Allocations: 4207)
+Completed 200 OK in 14ms (Views: 9.1ms | ActiveRecord: 0.1ms | Allocations: 5381)
+
+
+Started POST "/sign-in" for ::1 at 2025-03-22 15:28:00 -0700
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "username"=>"user1", "password"=>"[FILTERED]", "commit"=>"Sign In"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = ? LIMIT ?[0m  [["username", "user1"], ["LIMIT", 1]]
+  ↳ app/controllers/sessions_controller.rb:12:in `create'
+Redirected to http://localhost:3000/
+Completed 302 Found in 189ms (ActiveRecord: 0.1ms | Allocations: 1046)
+
+
+Started GET "/" for ::1 at 2025-03-22 15:28:00 -0700
+Processing by MainController#home as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:6:in `set_current_user'
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.3ms | Allocations: 124)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 28)
+  Rendered shared/_navbar.html.erb (Duration: 0.0ms | Allocations: 8)
+  Rendered layout layouts/application.html.erb (Duration: 7.3ms | Allocations: 2224)
+Completed 200 OK in 12ms (Views: 8.0ms | ActiveRecord: 0.1ms | Allocations: 3205)
+
+

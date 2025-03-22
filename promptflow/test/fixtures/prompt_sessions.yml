@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: MyString
+  system_prompt: MyString
+  like_count: 1
+  dislike_count: 1
+  good_feedback: MyText
+  bad_feedback: MyText
+
+two:
+  uid: MyString
+  system_prompt: MyString
+  like_count: 1
+  dislike_count: 1
+  good_feedback: MyText
+  bad_feedback: MyText
