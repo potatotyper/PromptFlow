@@ -1,5 +1,1103 @@
-<h1>Welcome Home</h1>
-<% if Current.user %>
-<h4><%= Current.user.username %></h1>
-<%= button_to "Logout", sign_out_path, method: :delete%>
-<% end %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptFlow</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-5px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes pulseSlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .animate-pulse-slow {
+      animation: pulseSlow 3s ease-in-out infinite;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #f8f9fa;
+      height: 100vh;
+      border-right: 1px solid #e9ecef;
+      position: relative;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      border-bottom: 1px solid #e9ecef;
+      background-color: #fff;
+    }
+    
+    .sidebar-menu-button {
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      font-size: 1rem;
+    }
+    
+    .sidebar-menu-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .sidebar-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 12px;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(to bottom right, #7c3aed, #a78bfa);
+    }
+    
+    .truncate-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      font-size: 1.05rem;
+    }
+    
+    .add-prompt-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid #e9ecef;
+      background-color: white;
+    }
+    
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: #f5f5f5;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      width: 100%;
+    }
+    
+    .user-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+      z-index: 50;
+    }
+    
+    .dropdown-content a {
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      color: #333;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+    
+    .dropdown-content a:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .category {
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="flex items-center">
+      <div class="flex justify-center items-center gradient-bg w-8 h-8 rounded-lg shadow-sm animate-pulse-slow mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+        </svg>
+      </div>
+      <h1 class="text-xl font-bold">Dashboard</h1>
+    </div>
+    
+    <div class="flex items-center space-x-4">
+      <!-- Notifications -->
+      <button class="p-2 rounded-lg hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </button>
+      
+      <!-- Settings -->
+      <button id="settings-button" class="p-2 rounded-lg hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="user-dropdown">
+        <button id="user-button" class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white">
+            <span>AM</span>
+          </div>
+          <span class="font-medium">Alex Morgan</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        
+        <div id="user-dropdown" class="dropdown-content">
+          <div class="px-4 py-3 font-bold">My Account</div>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Billing</a>
+          <a href="#" class="text-red-500">Log out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Search Bar -->
+      <div class="p-4">
+        <div class="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search prompts..." class="bg-transparent border-none outline-none w-full">
+        </div>
+      </div>
+      
+      <!-- Dashboard -->
+      <div class="px-3 py-2">
+        <a href="#" class="sidebar-menu-button bg-purple-100 text-purple-600 rounded-md">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sidebar-icon">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+      </div>
+      
+      <!-- Prompt History -->
+      <div class="mt-4">
+        <div class="category flex justify-between items-center px-6 py-2">
+          <span class="text-gray-500 font-semibold text-sm">PROMPTS</span>
+          <button id="new-prompt-button" class="text-blue-600 hover:text-blue-800">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Prompt History Section -->
+        <div class="mt-2">
+          <div class="px-4 py-2 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+            <span class="font-medium text-purple-600">Prompt History</span>
+          </div>
+          
+          <!-- History Items -->
+          <div class="mt-2">
+            <!-- Item 1 (selected) -->
+            <div class="px-4 py-3 bg-purple-100">
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 mr-2 flex-shrink-0">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-purple-700 font-medium truncate-text">Create a landing page for an e-commerce site</div>
+                  <div class="text-xs text-gray-500 mt-1">2023-06-15</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Item 2 -->
+            <div class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 mr-2 flex-shrink-0">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-gray-700 font-medium truncate-text">Design a logo for a tech startup</div>
+                  <div class="text-xs text-gray-500 mt-1">2023-06-14</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Item 3 -->
+            <div class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 mr-2 flex-shrink-0">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-gray-700 font-medium truncate-text">Write a product description for a new gadget</div>
+                  <div class="text-xs text-gray-500 mt-1">2023-06-13</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Item 4 -->
+            <div class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 mr-2 flex-shrink-0">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-gray-700 font-medium truncate-text">Generate ideas for a marketing campaign</div>
+                  <div class="text-xs text-gray-500 mt-1">2023-06-12</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Item 5 -->
+            <div class="px-4 py-3 hover:bg-gray-50">
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 mr-2 flex-shrink-0">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <div class="flex-1">
+                  <div class="text-gray-700 font-medium truncate-text">Create a social media content calendar</div>
+                  <div class="text-xs text-gray-500 mt-1">2023-06-11</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Content Area with Cards -->
+    <div class="flex-1 p-6">
+      <!-- Prompt Content Card -->
+      <div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+        <div class="bg-gray-800 text-white p-4">
+          <h2 class="text-xl font-semibold">System Prompt</h2>
+        </div>
+        <div id="prompt-content" class="p-6">
+          <p id="prompt-description" class="text-gray-700 text-lg leading-relaxed">You are a helpful assistant that specializes in creating landing pages for e-commerce sites. Your task is to suggest layouts, color schemes, and content organization for a new online store selling handmade crafts.</p>
+        </div>
+      </div>
+      
+      <!-- Statistics Card -->
+      <div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+        <div class="bg-purple-500 text-white p-4 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <h2 class="text-xl font-semibold">Statistics</h2>
+        </div>
+        
+        <div class="p-6 flex justify-between items-center">
+          <div class="flex flex-col space-y-6">
+            <!-- Likes -->
+            <div class="flex items-center">
+              <div class="bg-purple-100 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <div class="text-sm text-gray-500">Likes</div>
+                <div class="text-2xl font-bold">24</div>
+              </div>
+            </div>
+            
+            <!-- Dislikes -->
+            <div class="flex items-center">
+              <div class="bg-red-100 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <div class="text-sm text-gray-500">Dislikes</div>
+                <div class="text-2xl font-bold">8</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Donut Chart -->
+          <div>
+            <svg width="150" height="150" viewBox="0 0 150 150">
+              <circle cx="75" cy="75" r="60" fill="transparent" stroke="#d1d5db" stroke-width="20"></circle>
+              <circle cx="75" cy="75" r="60" fill="transparent" stroke="#8b5cf6" stroke-width="20" stroke-dasharray="377 377" stroke-dashoffset="94.25"></circle>
+              <circle cx="75" cy="75" r="60" fill="transparent" stroke="#ef4444" stroke-width="20" stroke-dasharray="377 377" stroke-dashoffset="321.45" transform="rotate(-90 75 75)"></circle>
+              <circle cx="75" cy="75" r="40" fill="white"></circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AI Feedback Card -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-purple-500 text-white p-4 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <h2 class="text-xl font-semibold">AI Feedback</h2>
+        </div>
+        
+        <div class="p-6">
+          <p class="text-gray-700 text-lg leading-relaxed">
+            The prompt is clear and provides good context about the type of site needed. To improve, consider specifying the target audience and any brand guidelines that should be followed. Adding examples of preferred styles could also help generate more relevant results.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- New Prompt Modal -->
+  <div id="new-prompt-modal" class="add-prompt-modal">
+    <div class="modal-content">
+      <h3 class="text-xl font-bold mb-4">Create New Prompt</h3>
+      <form id="new-prompt-form">
+        <div class="mb-4">
+          <label for="prompt-title" class="block text-sm font-medium text-gray-700 mb-1">Prompt Title</label>
+          <input type="text" id="prompt-title" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter a title for your prompt">
+        </div>
+        <div class="mb-4">
+          <label for="prompt-text" class="block text-sm font-medium text-gray-700 mb-1">Prompt</label>
+          <textarea id="prompt-text" rows="5" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Write your prompt here..."></textarea>
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button type="button" id="cancel-prompt" class="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Sample prompt history data
+    const promptHistory = [
+      { id: 0, title: "Create a landing page for an e-commerce site", date: "2023-06-15" },
+      { id: 1, title: "Design a logo for a tech startup", date: "2023-06-14" },
+      { id: 2, title: "Write a product description for a new gadget", date: "2023-06-13" },
+      { id: 3, title: "Generate ideas for a marketing campaign", date: "2023-06-12" },
+      { id: 4, title: "Create a social media content calendar", date: "2023-06-11" },
+    ];
+    
+    let selectedPrompt = null;
+    
+    // Function to set the selected prompt
+    function setSelectedPrompt(id) {
+      selectedPrompt = id;
+      
+      // Update active state in the sidebar
+      document.querySelectorAll('.sidebar-menu-button').forEach(button => {
+        if (button.dataset.id == id) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+      
+      // Update the main content area
+      const prompt = promptHistory.find(p => p.id === id);
+      if (prompt) {
+        document.getElementById('selected-prompt-title').textContent = prompt.title;
+        document.getElementById('selected-prompt-date').textContent = Created on ${prompt.date};
+        document.getElementById('prompt-description').textContent = "You are a helpful assistant that specializes in " + prompt.title.toLowerCase() + ".";
+      }
+    }
+    
+    // New Prompt Modal Functions
+    function setupNewPromptModal() {
+      const newPromptButton = document.getElementById('new-prompt-button');
+      const modal = document.getElementById('new-prompt-modal');
+      const cancelButton = document.getElementById('cancel-prompt');
+      const form = document.getElementById('new-prompt-form');
+      
+      // Open modal
+      newPromptButton.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+      
+      // Close modal
+      cancelButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+        form.reset();
+      });
+      
+      // Submit form
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const title = document.getElementById('prompt-title').value;
+        const text = document.getElementById('prompt-text').value;
+        
+        if (title.trim() === '') {
+          alert('Please enter a title for your prompt');
+          return;
+        }
+        
+        // Create new prompt
+        const newPrompt = {
+          id: promptHistory.length > 0 ? Math.max(...promptHistory.map(p => p.id)) + 1 : 0,
+          title: title,
+          date: new Date().toISOString().split('T')[0],
+          text: text
+        };
+        
+        // Add to history
+        promptHistory.unshift(newPrompt);
+        
+        // Update sidebar
+        initSidebar();
+        
+        // Select the new prompt
+        setSelectedPrompt(newPrompt.id);
+        
+        // Close modal
+        modal.style.display = 'none';
+        form.reset();
+      });
+      
+      // Close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          form.reset();
+        }
+      });
+    }
+    
+    // Toggle dropdown functions
+    function setupDropdowns() {
+      const userButton = document.getElementById('user-button');
+      const userDropdown = document.getElementById('user-dropdown');
+      const settingsButton = document.getElementById('settings-button');
+      
+      userButton.addEventListener('click', () => {
+        userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block';
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!userButton.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.style.display = 'none';
+        }
+      });
+      
+      // Setup toggle for categories
+      document.querySelectorAll('.category').forEach(category => {
+        category.addEventListener('click', () => {
+          const items = category.nextElementSibling;
+          if (items && items.classList.contains('category-items')) {
+            items.style.display = items.style.display === 'none' ? 'block' : 'none';
+            
+            // Toggle icon
+            const icon = category.querySelector('svg');
+            if (icon) {
+              if (items.style.display === 'none') {
+                icon.innerHTML = '<polyline points="6 9 12 15 18 9"></polyline>';
+              } else {
+                icon.innerHTML = '<polyline points="18 15 12 9 6 15"></polyline>';
+              }
+            }
+          }
+        });
+      });
+    }
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', () => {
+      setupNewPromptModal();
+      setupDropdowns();
+      
+      // Set initial state for category items
+      document.querySelectorAll('.category-items').forEach(items => {
+        items.style.display = 'block'; // Show all by default
+      });
+      
+      // Add ID for the selected prompt title in the main content
+      const mainContent = document.querySelector('.flex-1');
+      if (!document.getElementById('selected-prompt-title')) {
+        const titleSpan = document.createElement('span');
+        titleSpan.id = 'selected-prompt-title';
+        titleSpan.style.display = 'none';
+        mainContent.appendChild(titleSpan);
+        
+        const dateSpan = document.createElement('span');
+        dateSpan.id = 'selected-prompt-date';
+        dateSpan.style.display = 'none';
+        mainContent.appendChild(dateSpan);
+      }
+    });<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptFlow</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-5px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes pulseSlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .animate-pulse-slow {
+      animation: pulseSlow 3s ease-in-out infinite;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: #f8f9fa;
+      height: 100vh;
+      border-right: 1px solid #e9ecef;
+      position: relative;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      border-bottom: 1px solid #e9ecef;
+      background-color: #fff;
+    }
+    
+    .sidebar-menu-button {
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .sidebar-menu-button:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      transform: translateX(0.25rem);
+    }
+    
+    .sidebar-menu-button.active {
+      background-color: rgba(124, 58, 237, 0.1);
+      color: #7c3aed;
+    }
+    
+    .sidebar-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(to bottom right, #7c3aed, #a78bfa);
+    }
+    
+    .truncate-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      font-size: 1.05rem;
+    }
+    
+    .add-prompt-button {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+    
+    .add-prompt-button:hover {
+      background-color: #6d28d9;
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 6px 10px -1px rgba(124, 58, 237, 0.3);
+    }
+    
+    .add-prompt-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+  </style>
+</head>
+<body class="flex">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header p-6">
+      <div class="flex items-center gap-3">
+        <div class="flex justify-center items-center gradient-bg w-10 h-10 rounded-xl shadow-lg animate-pulse-slow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles">
+            <path d="M12 3v18"></path>
+            <path d="M18.5 4l-13 18"></path>
+            <path d="M5.5 4l13 18"></path>
+          </svg>
+        </div>
+        <div class="max-w-[150px]">
+          <h1 class="text-xl font-bold tracking-tight">PromptFlow</h1>
+          <p class="text-xs text-gray-500">Your AI prompt assistant</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sidebar Content -->
+    <div class="py-6">
+      <!-- Tab navigation -->
+      <div class="px-6 mb-4">
+        <div class="flex border-b border-gray-200">
+          <button id="prompts-tab" class="py-2 px-4 text-purple-600 border-b-2 border-purple-600 font-medium text-base">Prompts</button>
+          <button id="settings-tab" class="py-2 px-4 text-gray-500 font-medium text-base">Settings</button>
+        </div>
+      </div>
+      
+      <!-- Prompts Tab Content -->
+      <div id="prompts-content">
+        <div class="px-6 mb-3 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+          <span class="font-semibold text-base">Prompt History</span>
+        </div>
+        
+        <div>
+          <div id="sidebar-menu">
+            <!-- Menu items will be inserted here by JavaScript -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Settings Tab Content (hidden by default) -->
+      <div id="settings-content" class="px-6 hidden">
+        <h3 class="font-semibold text-base mb-4">Account Settings</h3>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Display Name</label>
+            <input type="text" value="John Doe" class="w-full p-2 border border-gray-300 rounded-md">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <input type="email" value="john.doe@example.com" class="w-full p-2 border border-gray-300 rounded-md">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Theme</label>
+            <select class="w-full p-2 border border-gray-300 rounded-md">
+              <option>Light</option>
+              <option>Dark</option>
+              <option>System Default</option>
+            </select>
+          </div>
+          
+          <div class="pt-2">
+            <button class="w-full bg-purple-600 text-white font-medium py-2 px-4 rounded-md hover:bg-purple-700 transition">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Add New Prompt Button (only visible in Prompts tab) -->
+      <button id="new-prompt-button" class="add-prompt-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        New Prompt
+      </button>
+    </div>
+  </div>
+  
+  <!-- New Prompt Modal -->
+  <div id="new-prompt-modal" class="add-prompt-modal">
+    <div class="modal-content">
+      <h3 class="text-xl font-bold mb-4">Create New Prompt</h3>
+      <form id="new-prompt-form">
+        <div class="mb-4">
+          <label for="prompt-title" class="block text-sm font-medium text-gray-700 mb-1">Prompt Title</label>
+          <input type="text" id="prompt-title" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter a title for your prompt">
+        </div>
+        <div class="mb-4">
+          <label for="prompt-text" class="block text-sm font-medium text-gray-700 mb-1">Prompt</label>
+          <textarea id="prompt-text" rows="5" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Write your prompt here..."></textarea>
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button type="button" id="cancel-prompt" class="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Main Content Area with Cards -->
+  <div class="flex-1 p-6">
+    <!-- Prompt Content Card -->
+    <div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+      <div class="bg-gray-800 text-white p-4">
+        <h2 class="text-xl font-semibold">System Prompt</h2>
+      </div>
+      <div id="prompt-content" class="p-6">
+        <p id="prompt-description" class="text-gray-700 text-lg leading-relaxed">You are a helpful assistant that specializes in creating landing pages for e-commerce sites. Your task is to suggest layouts, color schemes, and content organization for a new online store selling handmade crafts.</p>
+      </div>
+    </div>
+    
+    <!-- Statistics Card -->
+    <div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+      <div class="bg-purple-500 text-white p-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <h2 class="text-xl font-semibold">Statistics</h2>
+      </div>
+      
+      <div class="p-6 flex justify-between items-center">
+        <div class="flex flex-col space-y-6">
+          <!-- Likes -->
+          <div class="flex items-center">
+            <div class="bg-purple-100 p-3 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <div class="text-sm text-gray-500">Likes</div>
+              <div class="text-2xl font-bold">24</div>
+            </div>
+          </div>
+          
+          <!-- Dislikes -->
+          <div class="flex items-center">
+            <div class="bg-red-100 p-3 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <div class="text-sm text-gray-500">Dislikes</div>
+              <div class="text-2xl font-bold">8</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Donut Chart -->
+        <div>
+          <svg width="150" height="150" viewBox="0 0 150 150">
+            <circle cx="75" cy="75" r="60" fill="transparent" stroke="#d1d5db" stroke-width="20"></circle>
+            <circle cx="75" cy="75" r="60" fill="transparent" stroke="#8b5cf6" stroke-width="20" stroke-dasharray="377 377" stroke-dashoffset="94.25"></circle>
+            <circle cx="75" cy="75" r="60" fill="transparent" stroke="#ef4444" stroke-width="20" stroke-dasharray="377 377" stroke-dashoffset="321.45" transform="rotate(-90 75 75)"></circle>
+            <circle cx="75" cy="75" r="40" fill="white"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- AI Feedback Card -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="bg-purple-500 text-white p-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <h2 class="text-xl font-semibold">AI Feedback</h2>
+      </div>
+      
+      <div class="p-6">
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The prompt is clear and provides good context about the type of site needed. To improve, consider specifying the target audience and any brand guidelines that should be followed. Adding examples of preferred styles could also help generate more relevant results.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample prompt history data
+    const promptHistory = [
+      { id: 0, title: "Create a landing page for an e-commerce site", date: "2023-06-15" },
+      { id: 1, title: "Design a logo for a tech startup", date: "2023-06-14" },
+      { id: 2, title: "Write a product description for a new gadget", date: "2023-06-13" },
+      { id: 3, title: "Generate ideas for a marketing campaign", date: "2023-06-12" },
+      { id: 4, title: "Create a social media content calendar", date: "2023-06-11" },
+    ];
+    
+    let selectedPrompt = null;
+    
+    // Function to set the selected prompt
+    function setSelectedPrompt(id) {
+      selectedPrompt = id;
+      
+      // Update active state in the sidebar
+      document.querySelectorAll('.sidebar-menu-button').forEach(button => {
+        if (button.dataset.id == id) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+      
+      // Update the main content area
+      const prompt = promptHistory.find(p => p.id === id);
+      if (prompt) {
+        document.getElementById('selected-prompt-title').textContent = prompt.title;
+        document.getElementById('selected-prompt-date').textContent = Created on ${prompt.date};
+        document.getElementById('prompt-description').textContent = "You are a helpful assistant that specializes in " + prompt.title.toLowerCase() + ".";
+      }
+    }
+    
+    // Initialize the sidebar menu
+    function initSidebar() {
+      const sidebarMenu = document.getElementById('sidebar-menu');
+      sidebarMenu.innerHTML = '';
+      
+      promptHistory.forEach((prompt, index) => {
+        const menuItem = document.createElement('div');
+        menuItem.innerHTML = `
+          <button class="sidebar-menu-button" data-id="${prompt.id}" style="animation: fadeIn 0.5s forwards; animation-delay: ${index * 100}ms;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sidebar-icon">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            <div class="flex flex-col items-start">
+              <span class="truncate-text font-medium">${prompt.title}</span>
+              <span class="text-xs text-gray-500 mt-0.5">${prompt.date}</span>
+            </div>
+          </button>
+        `;
+        
+        sidebarMenu.appendChild(menuItem);
+        
+        // Add click event listener
+        const button = menuItem.querySelector('button');
+        button.addEventListener('click', () => {
+          setSelectedPrompt(prompt.id);
+        });
+      });
+      
+      // Set the first prompt as selected by default
+      if (promptHistory.length > 0) {
+        setSelectedPrompt(promptHistory[0].id);
+      }
+    }
+    
+    // New Prompt Modal Functions
+    function setupNewPromptModal() {
+      const newPromptButton = document.getElementById('new-prompt-button');
+      const modal = document.getElementById('new-prompt-modal');
+      const cancelButton = document.getElementById('cancel-prompt');
+      const form = document.getElementById('new-prompt-form');
+      
+      // Open modal
+      newPromptButton.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+      
+      // Close modal
+      cancelButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+        form.reset();
+      });
+      
+      // Submit form
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const title = document.getElementById('prompt-title').value;
+        const text = document.getElementById('prompt-text').value;
+        
+        if (title.trim() === '') {
+          alert('Please enter a title for your prompt');
+          return;
+        }
+        
+        // Create new prompt
+        const newPrompt = {
+          id: promptHistory.length > 0 ? Math.max(...promptHistory.map(p => p.id)) + 1 : 0,
+          title: title,
+          date: new Date().toISOString().split('T')[0],
+          text: text
+        };
+        
+        // Add to history
+        promptHistory.unshift(newPrompt);
+        
+        // Update sidebar
+        initSidebar();
+        
+        // Select the new prompt
+        setSelectedPrompt(newPrompt.id);
+        
+        // Close modal
+        modal.style.display = 'none';
+        form.reset();
+      });
+      
+      // Close modal when clicking outside
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          form.reset();
+        }
+      });
+    }
+    
+    // Tab switching functionality
+    function setupTabNavigation() {
+      const promptsTab = document.getElementById('prompts-tab');
+      const settingsTab = document.getElementById('settings-tab');
+      const promptsContent = document.getElementById('prompts-content');
+      const settingsContent = document.getElementById('settings-content');
+      const newPromptButton = document.getElementById('new-prompt-button');
+      
+      promptsTab.addEventListener('click', () => {
+        // Update tab styles
+        promptsTab.classList.add('text-purple-600', 'border-b-2', 'border-purple-600');
+        promptsTab.classList.remove('text-gray-500');
+        settingsTab.classList.add('text-gray-500');
+        settingsTab.classList.remove('text-purple-600', 'border-b-2', 'border-purple-600');
+        
+        // Show/hide content
+        promptsContent.classList.remove('hidden');
+        settingsContent.classList.add('hidden');
+        
+        // Show new prompt button
+        newPromptButton.style.display = 'flex';
+      });
+      
+      settingsTab.addEventListener('click', () => {
+        // Update tab styles
+        settingsTab.classList.add('text-purple-600', 'border-b-2', 'border-purple-600');
+        settingsTab.classList.remove('text-gray-500');
+        promptsTab.classList.add('text-gray-500');
+        promptsTab.classList.remove('text-purple-600', 'border-b-2', 'border-purple-600');
+        
+        // Show/hide content
+        promptsContent.classList.add('hidden');
+        settingsContent.classList.remove('hidden');
+        
+        // Hide new prompt button
+        newPromptButton.style.display = 'none';
+      });
+    }
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', () => {
+      initSidebar();
+      setupNewPromptModal();
+      setupTabNavigation();
+      
+      // Add ID for the selected prompt title in the main content
+      const mainContent = document.querySelector('.flex-1');
+      if (!document.getElementById('selected-prompt-title')) {
+        const titleSpan = document.createElement('span');
+        titleSpan.id = 'selected-prompt-title';
+        titleSpan.style.display = 'none';
+        mainContent.appendChild(titleSpan);
+        
+        const dateSpan = document.createElement('span');
+        dateSpan.id = 'selected-prompt-date';
+        dateSpan.style.display = 'none';
+        mainContent.appendChild(dateSpan);
+      }
+    });
+  </script>
+</body>
+</html>

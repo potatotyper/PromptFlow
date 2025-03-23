@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_22_211111) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_22_233120) do
+  create_table "bad_feedbacks", force: :cascade do |t|
+    t.integer "prompt_session_id", null: false
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prompt_session_id"], name: "index_bad_feedbacks_on_prompt_session_id"
+  end
+
+  create_table "good_feedbacks", force: :cascade do |t|
+    t.integer "prompt_session_id", null: false
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prompt_session_id"], name: "index_good_feedbacks_on_prompt_session_id"
+  end
+
+  create_table "prompt_sessions", force: :cascade do |t|
+    t.integer "uid"
+    t.string "system_prompt"
+    t.integer "like_count"
+    t.integer "dislike_count"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_prompt_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -20,4 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_22_211111) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bad_feedbacks", "prompt_sessions"
+  add_foreign_key "good_feedbacks", "prompt_sessions"
+  add_foreign_key "prompt_sessions", "users"
 end

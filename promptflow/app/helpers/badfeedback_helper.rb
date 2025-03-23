@@ -1,0 +1,2 @@
+module BadfeedbackHelper
+end

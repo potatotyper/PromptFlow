@@ -20,4 +20,12 @@ Rails.application.routes.draw do
   post "/sign-in", to: "sessions#create"
   
   delete "/sign-out", to: "sessions#destroy"
+
+  get '/get_prompt/:uid', to: 'promptsession#get_prompt'
+
+  get '/create_prompt', to: 'promptsession#new'
+
+  post '/new_prompt', to: 'promptsession#set_prompt'
+
+  post '/update_prompt', to: 'promptsession#update_prompt'
 end

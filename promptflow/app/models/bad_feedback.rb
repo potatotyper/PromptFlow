@@ -1,0 +1,2 @@
+class BadFeedback < ApplicationRecord
+end

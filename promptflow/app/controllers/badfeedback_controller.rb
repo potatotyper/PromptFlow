@@ -1,0 +1,2 @@
+class BadfeedbackController < ApplicationController
+end
