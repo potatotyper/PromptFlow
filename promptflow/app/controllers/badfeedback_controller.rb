@@ -7,6 +7,7 @@ class BadfeedbackController < ApplicationController
     @bf = BadFeedback.new(get_params)
     @ps = PromptSession.find_by(uid: get_params[:prompt_session_id])
     if @ps 
+      puts "BAD FEEDBACK PROCCESS"
       @ps.dislike_count = @ps.dislike_count + 1
       @bf.comment = get_params[:comment]
       @bf.save

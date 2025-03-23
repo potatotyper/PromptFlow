@@ -34,4 +34,6 @@ Rails.application.routes.draw do
   post '/good_feed', to:'goodfeedback#get_feedback'
   
   post '/bad_feed', to:'badfeedback#get_feedback'
+
+  get '/updates/:id', to: 'promptsession#change'
 end

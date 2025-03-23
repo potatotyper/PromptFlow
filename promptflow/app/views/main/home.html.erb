@@ -574,7 +574,9 @@
           <p style="line-height: 1.6; color: #4b5563;" id="feedback">
             <%= @pss.first.feedback%>
           </p>
-          <p id="simi"></p>
+          <p id = "simir">Similarity Rating: 
+          <span id="simi"></span></p>
+        <%= button_to "Approve Change", "/updates", method: :get, class: "btn btn-primary", turbo: false , id: "approvebtn" %>
         </div>
       </div>
       <% end %>
@@ -630,7 +632,7 @@
 </div>
 <div class="mb-3">
   <button type="button" id="cancel-prompt" style="padding: 7px 16px; border: 1px solid #d1d5db; border-radius: 6px; background-color: white; cursor: pointer;">Cancel</button>
-  <%= form.submit "Create form", class: "btn btn-primary" %>
+  <%= form.submit "Create Prompt", class: "btn btn-primary" %>
 </div>
 <% end %>
     </div>
@@ -638,17 +640,18 @@
 
   <script>
     // Sample prompt data
-    const promptData = [
+    var promptData = [
       <% if Current.user %>
       <% @pss.each do |prompt| %>
       {
         id: <%= @i %>,
-        title: "<%= prompt.system_prompt %>",
+        uid: <%= prompt.uid %>,
+        title: "<%= prompt.system_prompt != nil ? prompt.system_prompt.strip : " " %>",
         date: "<%= prompt.updated_at %>",
-        content: "<%= prompt.system_prompt %>",
+        content: "<%= prompt.system_prompt != nil ? prompt.system_prompt.strip : " " %>",
         likes: <%= prompt.like_count %>,
         dislikes: <%= prompt.dislike_count %>,
-        feedback: "<%= prompt.feedback != nil ? prompt.feedback.chomp : " " %>",
+        feedback: "<%= prompt.feedback != nil ? prompt.feedback.strip : " " %>",
         simi: "<%= prompt.prompt_sim %>"
       },
       <% @i = @i + 1%>
@@ -685,6 +688,7 @@
           let lip = 377 * prompt.likes / (prompt.likes + prompt.dislikes);
           let dip = 377 * prompt.likes / (prompt.likes + prompt.dislikes);
           document.getElementById("likeCircle").setAttribute("stroke-dasharray", `${lip} ${dip}`);
+          promptId = prompt.uid;
         }
       });
     });
@@ -733,8 +737,16 @@
     
     document.addEventListener('DOMContentLoaded', function() {
         let item = document.querySelector('.prompt-item');
-        const promptId = 0;
-        console.log(promptId);
+        var promptId = 0;
+        var promptIdC = 1;
+
+        if (document.getElementById("approvebtn")) {
+          const form = document.getElementById("approvebtn").closest("form");
+          if (form) {
+            form.action = `/updates/${promptIdC}`; // Set the path dynamically
+            form.method = "get"; // Change the method to GET
+          }
+        }
         
         // Update selection visualization
         document.querySelectorAll('.prompt-item').forEach(el => {
@@ -756,8 +768,8 @@
           let lip =377 * prompt.likes / (prompt.likes + prompt.dislikes);
           let dip = 377 * prompt.likes / (prompt.likes + prompt.dislikes);
           document.getElementById("likeCircle").setAttribute("stroke-dasharray", `${lip} ${dip}`);
+          promptId = prompt.uid;
         }
-        console.log(promptId);
     });
 
   </script>

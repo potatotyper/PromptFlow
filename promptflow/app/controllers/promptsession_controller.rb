@@ -8,6 +8,21 @@ class PromptsessionController < ApplicationController
     end
   end
 
+  def change
+    @ps = PromptSession.find_by(uid: params[:id])
+    if @ps 
+      puts "AAAAAAAAAAAAAAAAAAA"
+      temp = @ps.feedback
+      @ps.system_prompt = temp
+      @ps.prompt_sim = nil
+      @ps.feedback = nil
+      @ps.save
+      # redirect_to root_path, notice: "Prompt update successful."
+    else
+        render json: {error: "No prompt"}
+    end
+  end
+
   def new
     @ps = PromptSession.new
   end
@@ -18,7 +33,7 @@ class PromptsessionController < ApplicationController
     @ps.dislike_count = 0
     @ps.user_id = Current.user.id
     if @ps.save
-      render json: { message: "Prompt session created successfully" }
+      redirect_to root_path, notice: "Prompt creation successful."
     else
       redirect_to root_path, notice: "UID already in use"
     end
