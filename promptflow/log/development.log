@@ -4236,3 +4236,54 @@ Processing by MainController#home as HTML
 Completed 200 OK in 72ms (Views: 41.3ms | ActiveRecord: 0.0ms | Allocations: 19047)
 
 
+Started GET "/" for ::1 at 2025-03-22 20:59:42 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 1.1ms | Allocations: 1011)
+Started GET "/" for ::1 at 2025-03-22 20:59:42 -0700
+  Rendered shared/_flash.html.erb (Duration: 1.8ms | Allocations: 262)
+  Rendered layout layouts/application.html.erb (Duration: 146.0ms | Allocations: 38254)
+Completed 200 OK in 217ms (Views: 160.1ms | ActiveRecord: 0.0ms | Allocations: 44697)
+
+
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.1ms | Allocations: 7)
+  Rendered shared/_flash.html.erb (Duration: 0.1ms | Allocations: 23)
+  Rendered layout layouts/application.html.erb (Duration: 7.1ms | Allocations: 2037)
+Completed 200 OK in 12ms (Views: 8.2ms | ActiveRecord: 0.0ms | Allocations: 2666)
+
+
+Started GET "/" for ::1 at 2025-03-22 21:00:30 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 1.0ms | Allocations: 920)
+  Rendered shared/_flash.html.erb (Duration: 0.9ms | Allocations: 202)
+  Rendered layout layouts/application.html.erb (Duration: 54.1ms | Allocations: 17480)
+Completed 200 OK in 92ms (Views: 62.8ms | ActiveRecord: 0.0ms | Allocations: 18822)
+
+
+Started GET "/" for ::1 at 2025-03-22 21:00:38 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 0.9ms | Allocations: 918)
+  Rendered shared/_flash.html.erb (Duration: 0.7ms | Allocations: 202)
+  Rendered layout layouts/application.html.erb (Duration: 31.0ms | Allocations: 17347)
+Completed 200 OK in 69ms (Views: 38.2ms | ActiveRecord: 0.0ms | Allocations: 18684)
+
+
+Started GET "/" for ::1 at 2025-03-22 21:00:59 -0700
+Processing by MainController#home as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering main/home.html.erb within layouts/application
+  Rendered main/home.html.erb within layouts/application (Duration: 1.2ms | Allocations: 921)
+  Rendered shared/_flash.html.erb (Duration: 0.8ms | Allocations: 202)
+  Rendered layout layouts/application.html.erb (Duration: 33.3ms | Allocations: 17482)
+Completed 200 OK in 69ms (Views: 40.5ms | ActiveRecord: 0.0ms | Allocations: 18831)
+
+

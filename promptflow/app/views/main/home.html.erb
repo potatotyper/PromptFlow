@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
 
   <meta charset="UTF-8" />
@@ -51,8 +53,8 @@
       align-items: center;
       padding: 10px 16px;
       margin: 0 12px;
-      background-color: #f0e6ff;
-      color: #7c3aed;
+      background-color: oklch(0.882 0.059 254.128);
+      color: oklch(0.623 0.214 259.815);
       border-radius: 6px;
       text-decoration: none;
     }
@@ -75,7 +77,7 @@
       display: flex;
       align-items: center;
       padding: 8px 16px;
-      color: #7c3aed;
+      color: oklch(0.623 0.214 259.815);
       font-weight: 500;
     }
     
@@ -89,11 +91,12 @@
     }
     
     .prompt-item:hover {
-      background-color: #f9fafb;
+      background-color: oklch(0.97 0.03 254.604);
+      transition: 0.2s ease-in-out;
     }
     
     .prompt-item.selected {
-      background-color: #f0e6ff;
+      background-color: oklch(0.932 0.032 255.585);
     }
     
     .prompt-icon {
@@ -138,8 +141,8 @@
       background-color: #1f2937;
     }
     
-    .card-header.purple {
-      background-color: #7c3aed;
+    .card-header.blue {
+      background-color: oklch(0.623 0.214 259.815);
     }
     
     .card-content {
@@ -171,14 +174,45 @@
     .stat-icon.purple {
       background-color: #f3e8ff;
     }
+
+    .thumbs-up {
+      filter: brightness(100%);
+      cursor: pointer;
+      transition: filter 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .thumbs-up:hover {
+      filter: brightness(200%);
+      transform: scale(1.2);
+    }
     
     .stat-icon.red {
       background-color: #fee2e2;
+    }
+
+    .thumbs-down:hover {
+      filter: brightness(100%);
+      cursor: pointer;
+      transition: filter 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .thumbs-down:hover {
+      filter: brightness(200%);
+      transform: scale(1.2);
     }
     
     .stat-label {
       font-size: 0.8rem;
       color: #6b7280;
+    }
+
+    .chart {
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .chart:hover {
+        transform: scale(1.2);
     }
     
     .stat-value {
@@ -188,6 +222,8 @@
     
     .dropdown {
       position: relative;
+      border-radius: 2rem;
+      transition: 0.2s ease-in-out;
     }
     
     .dropdown-menu {
@@ -244,6 +280,8 @@
       display: none;
     }
   </style>
+</head>
+<body>
   <!-- Header -->
   <header class="header">
     <h1><i class="fa-solid fa-worm fa-flip-horizontal"></i>PromptFlow</h1>
@@ -266,7 +304,6 @@
       </button>
       
       <!-- User Profile -->
-      <% if Current.user %>
       <div class="dropdown">
         <button id="user-button" style="display: flex; align-items: center; background: none; border: none; cursor: pointer;">
           <div style="width: 32px; height: 32px; border-radius: 50%; background-color: #7c3aed; color: white; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
@@ -277,18 +314,15 @@
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
-
+        
         <div id="user-dropdown" class="dropdown-menu">
           <div class="dropdown-header">My Account</div>
           <a href="#" class="dropdown-item">Profile</a>
           <a href="#" class="dropdown-item">Settings</a>
           <a href="#" class="dropdown-item">Billing</a>
-          <%= button_to "Log out", sign_out_path, method: :delete,  data: { turbo: false }, class: "dropdown-item danger" %>
-          </div>
+          <a href="#" class="dropdown-item danger">Log out</a>
+        </div>
       </div>
-      <% else %>
-
-      <% end%>
     </div>
   </header>
   
@@ -310,7 +344,7 @@
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
-        <span>Dashboard</span>
+        <span style="color: oklch(0.623 0.214 259.815)">Dashboard</span>
       </a>
       
       <!-- Prompt History -->
@@ -328,7 +362,7 @@
         <!-- Prompt History Section -->
         <div>
           <div class="history-header">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.623 0.214 259.815)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
             </svg>
             <span>Prompt History</span>
@@ -344,7 +378,7 @@
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
                 <div>
-                  <div class="prompt-title" style="color: #7c3aed;">Create a landing page for an e-commerce site</div>
+                  <div class="prompt-title" style="color: oklch(0.623 0.214 259.815);">Create a landing page for an e-commerce site</div>
                   <div class="prompt-date">2023-06-15</div>
                 </div>
               </div>
@@ -424,7 +458,7 @@
       
       <!-- Statistics Card -->
       <div class="card">
-        <div class="card-header purple">
+        <div class="card-header blue">
           <div style="display: flex; align-items: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
               <circle cx="12" cy="12" r="10"></circle>
@@ -440,7 +474,7 @@
               <!-- Likes -->
               <div class="stat-item">
                 <div class="stat-icon purple">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg class="thumbs-up" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                   </svg>
                 </div>
@@ -453,7 +487,7 @@
               <!-- Dislikes -->
               <div class="stat-item">
                 <div class="stat-icon red">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg class="thumbs-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
                   </svg>
                 </div>
@@ -466,7 +500,7 @@
             
             <!-- Donut Chart -->
             <div>
-              <svg width="150" height="150" viewBox="0 0 150 150">
+              <svg class="chart" width="150" height="150" viewBox="0 0 150 150">
                 <circle cx="75" cy="75" r="60" fill="transparent" stroke="#FF0000" stroke-width="20"></circle>
                 <circle cx="75" cy="75" r="60" fill="transparent" stroke="#008000" stroke-width="20" stroke-dasharray="377 377" stroke-dashoffset="94.25"></circle>
 
@@ -479,7 +513,7 @@
       
       <!-- AI Feedback Card -->
       <div class="card">
-        <div class="card-header purple">
+        <div class="card-header blue">
           <div style="display: flex; align-items: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -565,7 +599,7 @@
         });
         
         item.classList.add('selected');
-        item.querySelector('.prompt-title').style.color = '#7c3aed';
+        item.querySelector('.prompt-title').style.color = 'oklch(0.623 0.214 259.815)';
         
         // Update content based on selection
         const prompt = promptData.find(p => p.id === promptId);
@@ -623,7 +657,7 @@
         id,
         title,
         date,
-        content: text || `You are a helpful assistant that specializes in ${title.toLowerCase()}.`
+        content: text || You are a helpful assistant that specializes in ${title.toLowerCase()}.
       });
       
       // Close modal and reset form
@@ -631,7 +665,7 @@
       newPromptForm.reset();
       
       // In a real app, we would update the UI with the new prompt here
-      alert(`New prompt "${title}" created! In a real app, this would be saved and added to the list.`);
+      alert(New prompt "${title}" created! In a real app, this would be saved and added to the list.);
     });
     
     // Prevent clicks inside the modal from closing it
@@ -645,3 +679,5 @@
       newPromptForm.reset();
     });
   </script>
+</body>
+</html>
