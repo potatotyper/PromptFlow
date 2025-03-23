@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root to: "main#home"
+
+  get "/get/:id", to: "main#get"
   
   get "/sign-up", to: "registrations#new"
   
@@ -28,4 +30,8 @@ Rails.application.routes.draw do
   post '/new_prompt', to: 'promptsession#set_prompt'
 
   post '/update_prompt', to: 'promptsession#update_prompt'
+
+  post '/good_feed', to:'goodfeedback#get_feedback'
+  
+  post '/bad_feed', to:'badfeedback#get_feedback'
 end

@@ -20,7 +20,7 @@ class PromptsessionController < ApplicationController
     if @ps.save
       render json: { message: "Prompt session created successfully" }
     else
-      render :new, notice: "UID already in use"
+      redirect_to root_path, notice: "UID already in use"
     end
   end
 

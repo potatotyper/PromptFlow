@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+  <% if @ps.errors.any? %>
+    <div class="alert alert-danger">
+        <% @ps.errors.full_messages.each do |messages| %>
+        <div><%= messages %></div>
+        <% end %>
+    </div>
+<% end %>
 <head>
 
   <meta charset="UTF-8" />
@@ -304,25 +311,29 @@
       </button>
       
       <!-- User Profile -->
+      
+      <% if Current.user %>
       <div class="dropdown">
         <button id="user-button" style="display: flex; align-items: center; background: none; border: none; cursor: pointer;">
           <div style="width: 32px; height: 32px; border-radius: 50%; background-color: #7c3aed; color: white; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
             <span>DD</span>
           </div>
-          <span style="font-weight: 500; margin-right: 4px;">Diddy</span>
+          <span style="font-weight: 500; margin-right: 4px;"><%= Current.user.username%></span>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
-        
         <div id="user-dropdown" class="dropdown-menu">
           <div class="dropdown-header">My Account</div>
           <a href="#" class="dropdown-item">Profile</a>
           <a href="#" class="dropdown-item">Settings</a>
           <a href="#" class="dropdown-item">Billing</a>
-          <a href="#" class="dropdown-item danger">Log out</a>
+          <%= button_to "Log out", sign_out_path, method: :delete, class: "dropdown-item danger", turbo: false %>
         </div>
       </div>
+      <% else %>
+      <%= link_to "Log in", sign_in_path, method: :get, class: "dropdown-item danger", turbo: false %>
+      <% end %>
     </div>
   </header>
   
@@ -339,7 +350,7 @@
       </div>
       
       <!-- Dashboard -->
-      <a href="#" class="dashboard-link">
+      <a href="/get" class="dashboard-link">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -369,77 +380,87 @@
           </div>
           
           <!-- History Items -->
-          <div>
-            <!-- Item 1 (selected) -->
-            <div class="prompt-item selected" data-id="0">
-              <div class="flex" style="align-items: flex-start;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                <div>
-                  <div class="prompt-title" style="color: oklch(0.623 0.214 259.815);">Create a landing page for an e-commerce site</div>
-                  <div class="prompt-date">2023-06-15</div>
+          <% if Current.user %>
+            <div>
+            <% @pss.each do |prompt| %>
+              <!-- Item 1 (selected) -->
+              <div class="prompt-item" data-id="<%= @i2 %>">
+                <div class="flex" style="align-items: flex-start;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  <div>
+                    <div class="prompt-title" style="color: oklch(0.623 0.214 259.815);"><%= prompt.system_prompt %></div>
+                    <div class="prompt-date"><%= prompt.updated_at %></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- Item 2 -->
-            <div class="prompt-item" data-id="1">
-              <div class="flex" style="align-items: flex-start;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                <div>
-                  <div class="prompt-title">Design a logo for a tech startup</div>
-                  <div class="prompt-date">2023-06-14</div>
+              <%# 
+              <!-- Item 2 -->
+              <div class="prompt-item" data-id="1">
+                <div class="flex" style="align-items: flex-start;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  <div>
+                    <div class="prompt-title">Design a logo for a tech startup</div>
+                    <div class="prompt-date">2023-06-14</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- Item 3 -->
-            <div class="prompt-item" data-id="2">
-              <div class="flex" style="align-items: flex-start;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                <div>
-                  <div class="prompt-title">Write a product description for a new gadget</div>
-                  <div class="prompt-date">2023-06-13</div>
+              
+              <!-- Item 3 -->
+              <div class="prompt-item" data-id="2">
+                <div class="flex" style="align-items: flex-start;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  <div>
+                    <div class="prompt-title">Write a product description for a new gadget</div>
+                    <div class="prompt-date">2023-06-13</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- Item 4 -->
-            <div class="prompt-item" data-id="3">
-              <div class="flex" style="align-items: flex-start;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                <div>
-                  <div class="prompt-title">Generate ideas for a marketing campaign</div>
-                  <div class="prompt-date">2023-06-12</div>
+              
+              <!-- Item 4 -->
+              <div class="prompt-item" data-id="3">
+                <div class="flex" style="align-items: flex-start;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  <div>
+                    <div class="prompt-title">Generate ideas for a marketing campaign</div>
+                    <div class="prompt-date">2023-06-12</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- Item 5 -->
-            <div class="prompt-item" data-id="4">
-              <div class="flex" style="align-items: flex-start;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                <div>
-                  <div class="prompt-title">Create a social media content calendar</div>
-                  <div class="prompt-date">2023-06-11</div>
+              
+              <!-- Item 5 -->
+              <div class="prompt-item" data-id="4">
+                <div class="flex" style="align-items: flex-start;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;" class="prompt-icon">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  <div>
+                    <div class="prompt-title">Create a social media content calendar</div>
+                    <div class="prompt-date">2023-06-11</div>
+                  </div>
                 </div>
-              </div>
+              </div> %>
+
+
+            <% @i2 = @i2 + 1%>
+            <% end %>
             </div>
-          </div>
+          <% else %>
+
+          <% end %>
+
         </div>
       </div>
     </div>
@@ -447,16 +468,39 @@
     <!-- Main Content Area -->
     <div class="content-area">
       <!-- System Prompt Card -->
-      <div class="card">
-        <div class="card-header dark">System Prompt</div>
-        <div class="card-content">
-          <p id="prompt-description" style="line-height: 1.6; color: #4b5563;">
-            You are a helpful assistant that specializes in creating landing pages for e-commerce sites. Your task is to suggest layouts, color schemes, and content organization for a new online store selling handmade crafts.
-          </p>
+      <% if Current.user %>
+        <% if @pss.first %>
+          <div class="card">
+            <div class="card-header dark">System Prompt</div>
+            <div class="card-content">
+              <p id="prompt-description" style="line-height: 1.6; color: #4b5563;">
+                <%= @pss.first.system_prompt%>
+              </p>
+            </div>
+          </div>
+        <% else %>
+          <div class="card">
+          <div class="card-header blue">
+            <div style="display: flex; align-items: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              No prompts created!
+            </div>
+          </div>
+          <div class="card-content">
+            <p style="line-height: 1.6; color: #4b5563;">
+              Create a prompt and begin optimizing!
+            </p>
+          </div>
         </div>
-      </div>
+        <%end%>
+      <% else %>
+      <% end %>
       
       <!-- Statistics Card -->
+      <% if Current.user %>
+      <% if @pss.first %>
       <div class="card">
         <div class="card-header blue">
           <div style="display: flex; align-items: center;">
@@ -480,7 +524,7 @@
                 </div>
                 <div>
                   <div class="stat-label">Likes</div>
-                  <div class="stat-value">24</div>
+                  <div class="stat-value" id="likes"><%= @pss.first.like_count%></div>
                 </div>
               </div>
               
@@ -493,7 +537,7 @@
                 </div>
                 <div>
                   <div class="stat-label">Dislikes</div>
-                  <div class="stat-value">8</div>
+                  <div class="stat-value" id="dislikes"><%= @pss.first.dislike_count%></div>
                 </div>
               </div>
             </div>
@@ -502,7 +546,7 @@
             <div>
               <svg class="chart" width="150" height="150" viewBox="0 0 150 150">
                 <circle cx="75" cy="75" r="60" fill="transparent" stroke="#FF0000" stroke-width="20"></circle>
-                <circle cx="75" cy="75" r="60" fill="transparent" stroke="#008000" stroke-width="20" stroke-dasharray="377 377" stroke-dashoffset="94.25"></circle>
+                <circle id="likeCircle" cx="75" cy="75" r="60" fill="transparent" stroke="#008000" stroke-width="20" stroke-dasharray="<%= 377 * (@pss.first.dislike_count / (@pss.first.like_count + @pss.first.dislike_count == 0 ? 1 : @pss.first.like_count + @pss.first.dislike_count)) %> <%= 377 * (@pss.first.dislike_count / (@pss.first.like_count + @pss.first.dislike_count == 0 ? 1 : @pss.first.like_count + @pss.first.dislike_count)) %>" stroke-dashoffset="0"></circle>
 
                 <circle cx="75" cy="75" r="40" fill="white"></circle>
               </svg>
@@ -510,23 +554,50 @@
           </div>
         </div>
       </div>
+      <% end %>
+      <% else %>
+      <% end %>
       
       <!-- AI Feedback Card -->
+      <% if Current.user %>
+      <% if @pss.first %>
       <div class="card">
         <div class="card-header blue">
           <div style="display: flex; align-items: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
-            AI Feedback
+            Suggestions
+          </div>
+        </div>
+        <div class="card-content">
+          <p style="line-height: 1.6; color: #4b5563;" id="feedback">
+            <%= @pss.first.feedback%>
+          </p>
+          <p id="simi"></p>
+        </div>
+      </div>
+      <% end %>
+      <% else %>
+      <div class="card">
+        <div class="card-header blue">
+          <div style="display: flex; align-items: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Login to access page!
           </div>
         </div>
         <div class="card-content">
           <p style="line-height: 1.6; color: #4b5563;">
-            The prompt is clear and provides good context about the type of site needed. To improve, consider specifying the target audience and any brand guidelines that should be followed. Adding examples of preferred styles could also help generate more relevant results.
+            Login through your company/personal account to access the dashboard.
           </p>
         </div>
       </div>
+      <% end %>
+
+
+
     </div>
   </div>
   
@@ -534,7 +605,7 @@
   <div id="new-prompt-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 100; align-items: center; justify-content: center;">
     <div style="background-color: white; border-radius: 8px; padding: 24px; width: 90%; max-width: 500px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
       <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Create New Prompt</h3>
-      <form id="new-prompt-form">
+      <%# <form id="new-prompt-form">
         <div style="margin-bottom: 16px;">
           <label for="prompt-title" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 4px;">Prompt Title</label>
           <input type="text" id="prompt-title" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px;" placeholder="Enter a title for your prompt" />
@@ -547,43 +618,45 @@
           <button type="button" id="cancel-prompt" style="padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 6px; background-color: white; cursor: pointer;">Cancel</button>
           <button type="submit" style="padding: 8px 16px; background-color: #7c3aed; color: white; border: none; border-radius: 6px; cursor: pointer;">Create</button>
         </div>
-      </form>
+      </form> %>
+      <%= form_with model: @ps, url: new_prompt_path, data: { turbo: false } do |form| %>
+<div class="mb-3">
+    <%= form.label :uid %>
+    <%= form.number_field :uid, class: "form-control", placeholder: "123" %>
+</div>
+<div class="mb-3">
+    <%= form.label :system_prompt %>
+    <%= form.text_field :system_prompt, class: "form-control" %>
+</div>
+<div class="mb-3">
+  <button type="button" id="cancel-prompt" style="padding: 7px 16px; border: 1px solid #d1d5db; border-radius: 6px; background-color: white; cursor: pointer;">Cancel</button>
+  <%= form.submit "Create form", class: "btn btn-primary" %>
+</div>
+<% end %>
     </div>
   </div>
 
   <script>
     // Sample prompt data
     const promptData = [
-      { 
-        id: 0, 
-        title: "Create a landing page for an e-commerce site", 
-        date: "2023-06-15",
-        content: "You are a helpful assistant that specializes in creating landing pages for e-commerce sites. Your task is to suggest layouts, color schemes, and content organization for a new online store selling handmade crafts."
+      <% if Current.user %>
+      <% @pss.each do |prompt| %>
+      {
+        id: <%= @i %>,
+        title: "<%= prompt.system_prompt %>",
+        date: "<%= prompt.updated_at %>",
+        content: "<%= prompt.system_prompt %>",
+        likes: <%= prompt.like_count %>,
+        dislikes: <%= prompt.dislike_count %>,
+        feedback: "<%= prompt.feedback != nil ? prompt.feedback.chomp : " " %>",
+        simi: "<%= prompt.prompt_sim %>"
       },
-      { 
-        id: 1, 
-        title: "Design a logo for a tech startup", 
-        date: "2023-06-14",
-        content: "You are a helpful assistant that specializes in designing logos for tech startups. Your task is to suggest color schemes, typography, and visual elements that represent innovation and growth."
-      },
-      { 
-        id: 2, 
-        title: "Write a product description for a new gadget", 
-        date: "2023-06-13",
-        content: "You are a helpful assistant that specializes in writing product descriptions for new gadgets. Your task is to create compelling copy that highlights features, benefits, and unique selling points."
-      },
-      { 
-        id: 3, 
-        title: "Generate ideas for a marketing campaign", 
-        date: "2023-06-12",
-        content: "You are a helpful assistant that specializes in generating marketing campaign ideas. Your task is to create engaging concepts that will attract customers and drive conversions."
-      },
-      { 
-        id: 4, 
-        title: "Create a social media content calendar", 
-        date: "2023-06-11",
-        content: "You are a helpful assistant that specializes in creating social media content calendars. Your task is to plan engaging posts across platforms to maximize engagement and reach."
-      }
+      <% @i = @i + 1%>
+      <%end%>
+
+      <% else %>
+
+      <% end %>
     ];
     
     // Handle prompt item clicks
@@ -605,6 +678,13 @@
         const prompt = promptData.find(p => p.id === promptId);
         if (prompt) {
           document.getElementById('prompt-description').textContent = prompt.content;
+          document.getElementById('likes').textContent = prompt.likes;
+          document.getElementById('dislikes').textContent = prompt.dislikes;
+          document.getElementById('feedback').textContent = prompt.feedback;
+          document.getElementById('simi').textContent = prompt.simi;
+          let lip = 377 * prompt.likes / (prompt.likes + prompt.dislikes);
+          let dip = 377 * prompt.likes / (prompt.likes + prompt.dislikes);
+          document.getElementById("likeCircle").setAttribute("stroke-dasharray", `${lip} ${dip}`);
         }
       });
     });
@@ -637,36 +717,7 @@
       newPromptModal.style.display = 'none';
       newPromptForm.reset();
     });
-    
-    newPromptForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const title = document.getElementById('prompt-title').value;
-      const text = document.getElementById('prompt-text').value;
-      
-      if (!title.trim()) {
-        alert('Please enter a title for your prompt');
-        return;
-      }
-      
-      // Create new prompt (in a real app, this would be saved to a database)
-      const id = promptData.length;
-      const date = new Date().toISOString().split('T')[0];
-      
-      promptData.push({
-        id,
-        title,
-        date,
-        content: text || You are a helpful assistant that specializes in ${title.toLowerCase()}.
-      });
-      
-      // Close modal and reset form
-      newPromptModal.style.display = 'none';
-      newPromptForm.reset();
-      
-      // In a real app, we would update the UI with the new prompt here
-      alert(New prompt "${title}" created! In a real app, this would be saved and added to the list.);
-    });
+  
     
     // Prevent clicks inside the modal from closing it
     newPromptModal.querySelector('div').addEventListener('click', (e) => {
@@ -678,6 +729,37 @@
       newPromptModal.style.display = 'none';
       newPromptForm.reset();
     });
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        let item = document.querySelector('.prompt-item');
+        const promptId = 0;
+        console.log(promptId);
+        
+        // Update selection visualization
+        document.querySelectorAll('.prompt-item').forEach(el => {
+          el.classList.remove('selected');
+          el.querySelector('.prompt-title').style.color = '#374151';
+        });
+        
+        item.classList.add('selected');
+        item.querySelector('.prompt-title').style.color = 'oklch(0.623 0.214 259.815)';
+        
+        // Update content based on selection
+        const prompt = promptData.find(p => p.id === promptId);
+        if (prompt) {
+          document.getElementById('prompt-description').textContent = prompt.content;
+          document.getElementById('likes').textContent = prompt.likes;
+          document.getElementById('dislikes').textContent = prompt.dislikes;
+          document.getElementById('feedback').textContent = prompt.feedback;
+          document.getElementById('simi').textContent = prompt.simi;
+          let lip =377 * prompt.likes / (prompt.likes + prompt.dislikes);
+          let dip = 377 * prompt.likes / (prompt.likes + prompt.dislikes);
+          document.getElementById("likeCircle").setAttribute("stroke-dasharray", `${lip} ${dip}`);
+        }
+        console.log(promptId);
+    });
+
   </script>
 </body>
 </html>

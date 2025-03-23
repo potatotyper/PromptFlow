@@ -32,6 +32,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_22_233120) do
     t.string "system_prompt"
     t.integer "like_count"
     t.integer "dislike_count"
+    t.string "feedback"
+    t.integer "prompt_sim"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -5,6 +5,8 @@ class CreatePromptSessions < ActiveRecord::Migration[7.1]
       t.string :system_prompt
       t.integer :like_count
       t.integer :dislike_count
+      t.string :feedback
+      t.integer :prompt_sim
       t.references :user, null: false, foreign_key: true
 
       t.timestamps

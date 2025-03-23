@@ -1,4 +1,113 @@
-<h1>Sign Up</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PromptFlow Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0eaea;
+
+    }
+
+    .new {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      text-align: left;
+      background-color: transparent;
+      padding: 2rem;
+      border-radius: 8px;
+    }
+
+    .logo {
+      width: 50px;
+      margin-bottom: 0.5rem;
+    }
+
+    .title {
+        text-align: center;
+      font-size: 2.3rem;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      color: #333;
+      text-shadow: 1px 1px #aaa;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    input {
+      width: 30vw;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-bottom: 2px solid #888;
+      background: transparent;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #000;
+    }
+
+    .login-button {
+      margin-top: 4rem;
+      padding: 12px 32px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-button:hover {
+      background-color: #333;
+    }
+
+        .form-control {
+      border: none;         /* Remove all borders */
+      border-bottom: 2px solid black; /* Keep only bottom border */
+      background: transparent; /* No background */
+      outline: none;        /* Remove focus outline */
+      padding: 5px 0;       /* Adjust spacing */
+      width: 100%;          /* Full width */
+      font-size: 16px;      /* Readable font size */
+      width: 400px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .form-control:focus {
+    border-bottom: 2px solid black; /* Ensures no color change on focus */
+    outline: none;                   /* Prevents default blue outline */
+    background: transparent;
+      box-shadow: none;
+  }
+
+  .con {
+    margin-bottom: 0;
+  }
+  </style>
+</head>
 
 <% if @user.errors.any? %>
     <div class="alert alert-danger">
@@ -8,25 +117,30 @@
     </div>
 <% end %>
 
-<%= form_with model: @user, url: sign_up_path, data: { turbo: false } do |form| %>
-<div class="mb-3">
-    <%= form.label :username %>
-    <%= form.text_field :username, class: "form-control", placeholder: "username123" %>
-</div>
-<div class="mb-3">
-    <%= form.label :email %>
-    <%= form.text_field :email, class: "form-control", placeholder: "myemail@example.com" %>
-</div>
-<div class="mb-3">
-    <%= form.label :password %>
-    <%= form.password_field :password, class: "form-control" %>
-</div>
-<div class="mb-3">
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation, class: "form-control" %>
-</div>
+<div class="new">
+  <div class="login-container">
+    <div class="title"><i class="fa-solid fa-worm fa-flip-horizontal"></i>&nbsp;PromptFlow</div>
+            <%= form_with model: @user, url: sign_up_path, data: { turbo: false } do |form| %>
+        <div class="con">
+            <%= form.label :username %>
+            <%= form.text_field :username, class: "form-control", placeholder: "username123" %>
+        </div>
+        <div class="con">
+            <%= form.label :email %>
+            <%= form.text_field :email, class: "form-control", placeholder: "myemail@example.com" %>
+        </div>
+        <div class="con">
+            <%= form.label :password %>
+            <%= form.password_field :password, class: "form-control" %>
+        </div>
+        <div class="con">
+            <%= form.label :password_confirmation %>
+            <%= form.password_field :password_confirmation, class: "form-control" %>
+        </div>
 
-<div class="mb-3">
-    <%= form.submit "Sign Up", class: "btn btn-primary" %>
+        <div class="con">
+            <%= form.submit "Sign Up", class: "btn btn-primary" %>
+        </div>
+        <% end %>
+  </div>
 </div>
-<% end %>
